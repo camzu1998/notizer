@@ -17,9 +17,9 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/', [Controller::class, 'index'])->name('login');;
+Route::get('/', [Controller::class, 'index'])->name('login');
 
 Route::get('/register', [UserController::class, 'create']);
 Route::post('/register', [UserController::class, 'store']);
 
-Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware('auth');;
+Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware('auth');

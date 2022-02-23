@@ -16,6 +16,11 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
             return route('login');
+        } else {
+            return response()->json([
+                'status' => 9,
+                'msg'    => 'Auth error'
+            ], 403);
         }
     }
 }
