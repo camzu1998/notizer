@@ -10,4 +10,23 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Display a start page
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function index()
+    {
+        return view('homepage');
+    }
+    /**
+     * Display a dashboard page
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function dashboard()
+    {
+        return view('homepage');
+    }
 }
