@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name', 120);
             $table->text('content');
             $table->dateTime('deadline');
-            $table->boolean('status');
+            $table->integer('status');
             $table->timestamps();
 
             $table->index(['user_id', 'deadline', 'status']);

@@ -15,7 +15,14 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->string('name', 120);
+            $table->text('content');
+            $table->dateTime('deadline')->nullable();
+            $table->boolean('status');
             $table->timestamps();
+
+            $table->index(['user_id', 'deadline', 'status']);
         });
     }
 

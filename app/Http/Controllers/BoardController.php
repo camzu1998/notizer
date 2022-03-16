@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreNoteRequest;
+use App\Http\Requests\FormBoardRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
+use App\Repositories\BoardRepository;
+use Illuminate\Support\Facades\Auth;
 
-class NoteController extends Controller
+class BoardController extends Controller
 {
+    private $repository;
+
+    public function __construct(BoardRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,12 +40,18 @@ class NoteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreNoteRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\FormBoardRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreNoteRequest $request)
+    public function store(FormBoardRequest $request, string $provider)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = Auth::id();
+
+        $service = $this->repository->getProvider($provider);
+        $result = $service->create($data);
+
+        return response()->json($result);
     }
 
     /**

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\BoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +23,5 @@ Route::get('/register', [UserController::class, 'create']);
 Route::post('/register', [UserController::class, 'store']);
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware('auth');
+
+Route::post('/create/{provider}', [BoardController::class, 'store'])->middleware('auth');
