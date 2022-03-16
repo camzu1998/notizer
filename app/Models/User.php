@@ -41,4 +41,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the notes associated with the user.
+     */
+    public function notes()
+    {
+        return $this->hasOne(Note::class);
+    }
+
+    /**
+     * Get the notes associated with the user.
+     */
+    public function tasks()
+    {
+        return $this->hasOne(Task::class);
+    }
 }
