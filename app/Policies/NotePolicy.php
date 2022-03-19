@@ -6,7 +6,7 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BoardPolicy
+class NotePolicy
 {
     use HandlesAuthorization;
 
@@ -18,7 +18,7 @@ class BoardPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**

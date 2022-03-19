@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FormBoardRequest extends FormRequest
+class FormNoteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,9 @@ class FormBoardRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'content' => 'nullable',
+            'deadline' => 'nullable|date',
+            'status' => 'nullable|integer',
         ];
     }
 }

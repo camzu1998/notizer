@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('name', 120);
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->dateTime('deadline')->nullable();
-            $table->boolean('status');
+            $table->integer('status')->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'deadline', 'status']);

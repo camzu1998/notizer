@@ -47,14 +47,6 @@ class User extends Authenticatable
      */
     public function notes()
     {
-        return $this->hasOne(Note::class);
-    }
-
-    /**
-     * Get the notes associated with the user.
-     */
-    public function tasks()
-    {
-        return $this->hasOne(Task::class);
+        return $this->hasMany(Note::class);
     }
 }
