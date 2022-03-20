@@ -49,4 +49,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Note::class);
     }
+
+    /**
+     * Get the notes associated with the user.
+     */
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
 }
