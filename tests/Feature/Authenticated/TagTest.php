@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 class TagTest extends AuthenticatedTestCase
 {
-//    use RefreshDatabase;
+    use RefreshDatabase;
 
     /**
      * A tag access test
