@@ -40,10 +40,11 @@ class Tag extends Model
     }
 
     /**
-     * Get the notes associated with the tag.
+     * The notes that belong to the tag.
      */
     public function notes()
     {
-        return $this->hasMany(NoteTag::class);
+        return $this->belongsToMany(Note::class, 'note_tag', 'tag_id', 'note_id');
     }
+
 }

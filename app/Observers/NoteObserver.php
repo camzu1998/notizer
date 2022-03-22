@@ -15,6 +15,6 @@ class NoteObserver
      */
     public function deleted(Note $note)
     {
-        $note->tags()->delete();
+        $note->tags()->detach();
     }
 }

@@ -7,25 +7,26 @@ use App\Models\Note;
 use App\Models\NoteTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoteTagController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Synchronize note tags
      *
      * @param  \Illuminate\Http\FormNoteTagRequest  $request
      * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(FormNoteTagRequest $request, Note $note)
+    public function sync(FormNoteTagRequest $request, Note $note)
     {
-        $data = $request->validated();
-        $tags = Tag::find($data['tags']);
+        $user = Auth::user();
+        $request_data = $request->validated();
+        $tags = $user->tags()->find($request_data['tags']);
 
-        $note_tags = $tags->notes()->create([
-            'note_id' => $note->id
-        ]);
+        $note->tags()->sync($tags);
 
+        return redirect()->route('dashboard')->with('status', 'Note tags created!');
     }
 
     /**
@@ -33,10 +34,12 @@ class NoteTagController extends Controller
      *
      * @param  \App\Models\Note  $note
      * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Note $note, Tag $tag)
     {
-        //
+        $note->tags()->detach($tag->id);
+
+        return redirect()->route('dashboard')->with('status', 'Note tag deleted!');
     }
 }

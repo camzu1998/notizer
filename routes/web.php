@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,5 +40,5 @@ Route::delete('/tag/{tag}', [TagController::class, 'destroy'])->middleware('auth
 Route::post('/tag', [TagController::class, 'store'])->middleware('auth');
 
 //Note tags
-Route::post('/note_tag/{note}', [NoteTagController::class, 'store'])->middleware('auth');
+Route::post('/note_tag/{note}', [NoteTagController::class, 'sync'])->middleware('auth');
 Route::delete('/note_tag/{note}/{tag}', [NoteTagController::class, 'destroy'])->middleware('auth');

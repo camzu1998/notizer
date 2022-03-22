@@ -11,16 +11,6 @@ class NoteTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $tag;
-
-    //Prepare data
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->tag = Tag::factory()->create();
-    }
-
     /**
      * A note create test
      *
@@ -29,11 +19,15 @@ class NoteTest extends TestCase
     public function test_store_note()
     {
         //Creating note
-        $note = Note::factory()->create();
+        $note = Note::factory()->hasTags(1)->create();
 
         //Check if note is created
         $this->assertIsObject($note);
         $this->assertModelExists($note);
+        //Check if note tag is created
+        $this->assertDatabaseHas('note_tag', [
+            'note_id' => $note->id
+        ]);
     }
 
     /**
@@ -63,18 +57,15 @@ class NoteTest extends TestCase
     public function test_delete_note()
     {
         //Creating note
-        $note = Note::factory()->hasTags(1, [
-            'tag_id' => $this->tag->id,
-        ])->create();
+        $note = Note::factory()->hasTags(1)->create();
         //Delete note
         $note->delete();
 
         //Check if note is deleted
         $this->assertModelMissing($note);
         //Check if note tag is deleted
-        $this->assertDatabaseMissing('note_tags', [
-            'note_id' => $note->id,
-            'tag_id' => $this->tag->id,
+        $this->assertDatabaseMissing('note_tag', [
+            'note_id' => $note->id
         ]);
     }
 }

@@ -14,6 +14,6 @@ class TagObserver
      */
     public function deleted(Tag $tag)
     {
-        $tag->notes()->delete();
+        $tag->notes()->detach();
     }
 }
