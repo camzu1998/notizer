@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\NoteTagController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,3 +39,7 @@ Route::get('/tag/{tag}', [TagController::class, 'show'])->middleware('auth')->na
 Route::put('/tag/{tag}', [TagController::class, 'update'])->middleware('auth');
 Route::delete('/tag/{tag}', [TagController::class, 'destroy'])->middleware('auth');
 Route::post('/tag', [TagController::class, 'store'])->middleware('auth');
+
+//Note tags
+Route::post('/note_tag/{note}', [NoteTagController::class, 'store'])->middleware('auth');
+Route::delete('/note_tag/{note}/{tag}', [NoteTagController::class, 'destroy'])->middleware('auth');

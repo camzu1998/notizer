@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class NoteTag extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,8 @@ class Tag extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'name',
-        'color'
+        'note_id',
+        'tag_id',
     ];
 
     /**
@@ -26,24 +25,23 @@ class Tag extends Model
      * @var array
      */
     protected $attributes = [
-        'user_id' => false,
-        'name' => false,
-        'color' => '#333',
+        'note_id' => false,
+        'tag_id' => false,
     ];
 
     /**
-     * Get the user that owns the note.
+     * Get the tag that is associated with the note.
      */
-    public function user()
+    public function tag()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Tag::class);
     }
 
     /**
-     * Get the notes associated with the tag.
+     * Get the note that is associated with the tag.
      */
-    public function notes()
+    public function note()
     {
-        return $this->hasMany(NoteTag::class);
+        return $this->belongsTo(Note::class);
     }
 }

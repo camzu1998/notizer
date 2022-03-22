@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Note;
+use App\Models\NoteTag;
 use App\Models\Tag;
 use App\Policies\NotePolicy;
+use App\Policies\NoteTagPolicy;
 use App\Policies\TagPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
          Note::class => NotePolicy::class,
          Tag::class => TagPolicy::class,
+         NoteTag::class => NoteTagPolicy::class,
     ];
 
     /**

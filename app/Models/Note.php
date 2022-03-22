@@ -44,6 +44,14 @@ class Note extends Model
     }
 
     /**
+     * Get the tags associated with the note.
+     */
+    public function tags()
+    {
+        return $this->hasMany(NoteTag::class);
+    }
+
+    /**
      * Scope a query to only include task notes.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -52,5 +60,16 @@ class Note extends Model
     public function scopeTask($query)
     {
         $query->where('deadline', '!=', null);
+    }
+
+    /**
+     * Scope a query to only include notes.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeOnlyNote($query)
+    {
+        $query->where('deadline', '=', null);
     }
 }

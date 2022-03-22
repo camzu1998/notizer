@@ -3,12 +3,23 @@
 namespace Tests\Unit;
 
 use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class NoteTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $tag;
+
+    //Prepare data
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->tag = Tag::factory()->create();
+    }
 
     /**
      * A note create test
@@ -52,11 +63,18 @@ class NoteTest extends TestCase
     public function test_delete_note()
     {
         //Creating note
-        $note = Note::factory()->create();
+        $note = Note::factory()->hasTags(1, [
+            'tag_id' => $this->tag->id,
+        ])->create();
         //Delete note
         $note->delete();
 
         //Check if note is deleted
         $this->assertModelMissing($note);
+        //Check if note tag is deleted
+        $this->assertDatabaseMissing('note_tags', [
+            'note_id' => $note->id,
+            'tag_id' => $this->tag->id,
+        ]);
     }
 }
