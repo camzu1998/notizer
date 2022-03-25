@@ -26,7 +26,7 @@ class NoteTagController extends Controller
 
         $note->tags()->sync($tags);
 
-        return redirect()->route('dashboard')->with('status', 'Note tags created!');
+        return redirect()->route('dashboard')->with('status', 'Note tags synced!');
     }
 
     /**
