@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use App\Http\Requests\FormNoteRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\NoteRepository;
 
 class NoteController extends Controller
 {
+    private $repository;
     /**
      * Create the controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(NoteRepository $repository)
     {
         $this->authorizeResource(Note::class, 'note');
+        $this->repository = $repository;
     }
 
     /**
@@ -26,9 +28,7 @@ class NoteController extends Controller
      */
     public function store(FormNoteRequest $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = Auth::id();
-        Note::create($data);
+        $this->repository->create_note($request);
 
         return redirect()->route('dashboard')->with('status', 'Note created!');
     }
@@ -55,9 +55,7 @@ class NoteController extends Controller
      */
     public function update(FormNoteRequest $request, Note $note)
     {
-        $data = $request->validated();
-        $note->fill($data);
-        $note->save();
+        $this->repository->update_note($request, $note);
 
         return redirect()->route('note', [$note])->with('status', 'Note updated!');
     }

@@ -28,7 +28,7 @@ class Tag extends Model
     protected $attributes = [
         'user_id' => false,
         'name' => false,
-        'color' => '#333',
+        'color' => null,
     ];
 
     /**

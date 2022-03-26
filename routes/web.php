@@ -41,6 +41,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tag', [TagController::class, 'store']);
 
     //Note tags
-    Route::post('/note_tag/{note}', [NoteTagController::class, 'sync']);
+    Route::post('/note_tag/{note}', [NoteTagController::class, 'sync'])->can('update', 'note');
     Route::delete('/note_tag/{note}/{tag}', [NoteTagController::class, 'destroy']);
 });

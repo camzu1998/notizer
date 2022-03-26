@@ -4,13 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FormNoteTagRequest;
 use App\Models\Note;
-use App\Models\NoteTag;
 use App\Models\Tag;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\NoteRepository;
 
 class NoteTagController extends Controller
 {
+    private $repository;
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct(NoteRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Synchronize note tags
      *
@@ -20,11 +29,7 @@ class NoteTagController extends Controller
      */
     public function sync(FormNoteTagRequest $request, Note $note)
     {
-        $user = Auth::user();
-        $request_data = $request->validated();
-        $tags = $user->tags()->find($request_data['tags']);
-
-        $note->tags()->sync($tags);
+        $this->repository->sync_note_tags($request, $note);
 
         return redirect()->route('dashboard')->with('status', 'Note tags synced!');
     }

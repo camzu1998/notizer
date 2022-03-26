@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('name', 40);
-            $table->string('color', 9);
+            $table->string('color', 9)->nullable();
             $table->timestamps();
         });
     }
