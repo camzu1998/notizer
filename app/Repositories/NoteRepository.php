@@ -12,10 +12,10 @@ class NoteRepository
 {
     public function create_note(FormNoteRequest $request): Note
     {
+        $user = Auth::user();
         $data = $request->safe()->except('tags');
-        $data['user_id'] = Auth::id();
 
-        $note = Note::create($data);
+        $note = $user->notes()->create($data);
 
         $this->sync_note_tags($request, $note);
 
@@ -37,11 +37,10 @@ class NoteRepository
     public function sync_note_tags(Request $request, Note $note): Note
     {
         $user = Auth::user();
-        $data = $request->validated();
 
-        if(!empty($data['tags']))
+        if(!empty($request->tags))
         {
-            $tags = $user->tags()->find($data['tags']);
+            $tags = $user->tags()->find($request->tags);
             $note->tags()->sync($tags);
         }
 
