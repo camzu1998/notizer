@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id'
     ];
 
     /**
@@ -56,5 +57,21 @@ class User extends Authenticatable
     public function tags()
     {
         return $this->hasMany(Tag::class);
+    }
+
+    /**
+     * Get the user by google_id.
+     */
+    public function scopeGoogle_id($query, $google_id)
+    {
+        $query->where('google_id', $google_id);
+    }
+
+    /**
+     * Get the user by email.
+     */
+    public function scopeEmail($query, $email)
+    {
+        $query->where('email', $email);
     }
 }

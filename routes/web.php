@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NoteTagController;
 use App\Http\Controllers\TagController;
@@ -19,7 +20,13 @@ use App\Http\Controllers\UserController;
 |
 */
 
+//Default login
 Route::get('/', [Controller::class, 'index'])->name('login');
+Route::post('/auth', [LoginController::class, 'user_auth']);
+
+//Third party login
+Route::get('/auth/{provider}', [LoginController::class, 'redirect']);
+Route::get('/auth/{provider}/callback', [LoginController::class, 'third_party_auth']);
 
 Route::get('/register', [UserController::class, 'create']);
 Route::post('/register', [UserController::class, 'store']);

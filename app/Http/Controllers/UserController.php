@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
-
 class UserController extends Controller
 {
+    private $repository;
+    private $service;
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct(UserRepository $repository, UserService $service)
+    {
+        $this->repository = $repository;
+        $this->service = $service;
+    }
     /**
      * Show the register form for creating a new user.
      *
@@ -29,10 +42,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $data = $request->validated()->only(['name', 'email', 'password']);
+        $data = $request->validated()->except(['repeat_password']);
 
-        $data['password'] = Hash::make($data['password']);
-        User::create($data);
+        $user = $this->service->create_user($data['name'], $data['email'], $data['password']);
 
         return redirect()->route('login');
     }

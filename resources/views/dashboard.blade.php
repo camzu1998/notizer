@@ -1,5 +1,5 @@
 @extends('layout')
 
 @section('content')
-    <p>{{ $tag->name }}</p>
+    <p>Hello user</p>
 @stop

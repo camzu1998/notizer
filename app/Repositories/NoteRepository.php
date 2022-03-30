@@ -3,19 +3,24 @@
 namespace App\Repositories;
 
 use App\Http\Requests\FormNoteRequest;
-use App\Http\Requests\FormNoteTagRequest;
 use Illuminate\Http\Request;
 use App\Models\Note;
 use Illuminate\Support\Facades\Auth;
 
 class NoteRepository
 {
+    private $user;
+
+    public function  __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     public function create_note(FormNoteRequest $request): Note
     {
-        $user = Auth::user();
         $data = $request->safe()->except('tags');
 
-        $note = $user->notes()->create($data);
+        $note = $this->user->notes()->create($data);
 
         $this->sync_note_tags($request, $note);
 
@@ -36,11 +41,9 @@ class NoteRepository
 
     public function sync_note_tags(Request $request, Note $note): Note
     {
-        $user = Auth::user();
-
         if(!empty($request->tags))
         {
-            $tags = $user->tags()->find($request->tags);
+            $tags = $this->user->tags()->find($request->tags);
             $note->tags()->sync($tags);
         }
 

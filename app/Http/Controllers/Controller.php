@@ -27,6 +27,6 @@ class Controller extends BaseController
      */
     public function dashboard()
     {
-        return view('homepage');
+        return view('dashboard');
     }
 }
