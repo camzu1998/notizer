@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Dashboard;
 use App\Models\Note;
 use App\Models\Tag;
+use App\Models\User;
+use App\Observers\DashboardObserver;
 use App\Observers\NoteObserver;
 use App\Observers\TagObserver;
+use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -32,6 +36,8 @@ class EventServiceProvider extends ServiceProvider
     protected $observers = [
         Note::class => [NoteObserver::class],
         Tag::class => [TagObserver::class],
+        User::class => [UserObserver::class],
+        Dashboard::class => [DashboardObserver::class],
     ];
 
     /**

@@ -16,6 +16,7 @@ class Note extends Model
      */
     protected $fillable = [
         'user_id',
+        'dashboard_id',
         'name',
         'content',
         'deadline',
@@ -29,6 +30,7 @@ class Note extends Model
      */
     protected $attributes = [
         'user_id' => false,
+        'dashboard_id' => false,
         'name' => false,
         'content' => null,
         'deadline' => null,
@@ -41,6 +43,14 @@ class Note extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the dashboard that owns the note.
+     */
+    public function dashboard()
+    {
+        return $this->belongsTo(Dashboard::class);
     }
 
     /**

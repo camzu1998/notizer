@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Note>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Dashboard>
  */
-class NoteFactory extends Factory
+class DashboardFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +18,8 @@ class NoteFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'dashboard_id' => 1,
             'name' => $this->faker->name(),
-            'content' => $this->faker->words(3, true),
-            'deadline' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
-            'status' => $this->faker->numberBetween(0, 3),
+            'color' => $this->faker->hexColor()
         ];
     }
 }

@@ -18,7 +18,7 @@ class NoteTagTest extends AuthenticatedTestCase
     {
         parent::setUp();
 
-        $this->note = $this->user->notes()->create();
+        $this->note = $this->user->notes()->create(['dashboard_id' => $this->dashboard->id]);
         $this->tag = $this->user->tags()->create();
     }
 

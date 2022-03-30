@@ -60,6 +60,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the dashboards associated with the user.
+     */
+    public function dashboards()
+    {
+        return $this->hasMany(Dashboard::class);
+    }
+
+    /**
      * Get the user by google_id.
      */
     public function scopeGoogle_id($query, $google_id)
