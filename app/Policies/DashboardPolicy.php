@@ -18,7 +18,7 @@ class DashboardPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return false;
     }
 
     /**
@@ -30,7 +30,7 @@ class DashboardPolicy
      */
     public function view(User $user, Dashboard $dashboard)
     {
-        //
+        return $user->id === $dashboard->user_id;
     }
 
     /**
@@ -41,7 +41,7 @@ class DashboardPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class DashboardPolicy
      */
     public function update(User $user, Dashboard $dashboard)
     {
-        //
+        return $user->id === $dashboard->user_id;
     }
 
     /**
@@ -66,29 +66,5 @@ class DashboardPolicy
     public function delete(User $user, Dashboard $dashboard)
     {
         return $user->id === $dashboard->user_id && $dashboard->default === false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Dashboard  $dashboard
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Dashboard $dashboard)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Dashboard  $dashboard
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Dashboard $dashboard)
-    {
-        //
     }
 }

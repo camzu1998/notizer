@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDashboardRequest;
-use App\Http\Requests\UpdateDashboardRequest;
+use App\Http\Requests\FormDashboardRequest;
 use App\Models\Dashboard;
 
 class DashboardController extends Controller
@@ -31,10 +30,10 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDashboardRequest  $request
+     * @param  \App\Http\Requests\FormDashboardRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDashboardRequest $request)
+    public function store(FormDashboardRequest $request)
     {
         //
     }
@@ -64,11 +63,11 @@ class DashboardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDashboardRequest  $request
+     * @param  \App\Http\Requests\FormDashboardRequest  $request
      * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDashboardRequest $request, Dashboard $dashboard)
+    public function update(FormDashboardRequest $request, Dashboard $dashboard)
     {
         //
     }
@@ -77,10 +76,12 @@ class DashboardController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Dashboard  $dashboard
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Dashboard $dashboard)
     {
-        //
+        $dashboard->delete();
+
+        return redirect()->route('dashboard')->with('status', 'Dashboard deleted!');
     }
 }
