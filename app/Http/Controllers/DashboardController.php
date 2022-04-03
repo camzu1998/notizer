@@ -4,60 +4,62 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FormDashboardRequest;
 use App\Models\Dashboard;
+use App\Repositories\DashboardRepository;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    private $repository;
+    private $user;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function  __construct(DashboardRepository $repository)
     {
-        //
+        $this->repository = $repository;
+        $this->user = Auth::user();
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\FormDashboardRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(FormDashboardRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $dashboard = $this->user->dashboards()->create($data);
+
+        return redirect()->route('dashboard')->with('status', 'Dashboard created!');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Dashboard  $dashboard
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function show(Dashboard $dashboard)
     {
-        //
+        $data['dashboard'] = $dashboard;
+        $data['notes'] = $dashboard->notes;
+
+        return view('dashboard', $data);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
      *
      * @param  \App\Models\Dashboard  $dashboard
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
-    public function edit(Dashboard $dashboard)
+    public function home()
     {
-        //
+        $dashboard = $this->repository->get_default_dashboard();
+
+        $data['dashboard'] = $dashboard;
+        $data['notes'] = $dashboard->notes;
+
+        return view('dashboard', $data);
     }
 
     /**
@@ -65,11 +67,16 @@ class DashboardController extends Controller
      *
      * @param  \App\Http\Requests\FormDashboardRequest  $request
      * @param  \App\Models\Dashboard  $dashboard
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(FormDashboardRequest $request, Dashboard $dashboard)
     {
-        //
+        $data = $request->validated();
+
+        $dashboard->fill($data);
+        $dashboard->isDirty() ? $dashboard->save() : $dashboard;
+
+        return redirect()->route('dashboard', [$dashboard])->with('status', 'Dashboard updated!');
     }
 
     /**

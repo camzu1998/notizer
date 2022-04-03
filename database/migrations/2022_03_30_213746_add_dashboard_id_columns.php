@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('notes', function (Blueprint $table) {
             $table->integer('dashboard_id')->after('user_id');
+            $table->index('dashboard_id');
         });
     }
 

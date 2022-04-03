@@ -7,13 +7,18 @@ use App\Models\Dashboard;
 class DashboardObserver
 {
     /**
-     * Handle the Dashboard "deleted" event.
+     * Change assigned notes to default user dashboard
      *
      * @param  \App\Models\Dashboard  $dashboard
      * @return void
      */
     public function deleted(Dashboard $dashboard)
     {
-        $dashboard->notes()->delete();
+        $user = $dashboard->user;
+        $notes = $dashboard->notes;
+
+        $default_dashboard = $user->dasboards()->where('default', true)->first();
+
+        $notes->toQuery()->update(['dashboard_id' => $default_dashboard->id]);
     }
 }

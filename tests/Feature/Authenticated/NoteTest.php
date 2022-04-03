@@ -29,7 +29,8 @@ class NoteTest extends AuthenticatedTestCase
 
         //Trying to access the note
         $note = Note::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'dashboard_id' => $this->dashboard->id
         ]);
         $response = $this->get('/note/'.$note->id);
         $this->assertAuthenticated();
@@ -47,10 +48,11 @@ class NoteTest extends AuthenticatedTestCase
         $response->assertStatus(302)->assertInvalid(['name']);
 
         //Trying to store the valid note
-        $response = $this->post('/note', ['name' => 'Valid Note']);
+        $response = $this->post('/note', ['name' => 'Valid Note', 'dashboard_id' => $this->dashboard->id]);
         $response->assertStatus(302)->assertSessionHas('status');
         $this->assertDatabaseHas('notes', [
             'user_id' => $this->user->id,
+            'dashboard_id' => $this->dashboard->id,
             'name' => 'Valid Note',
         ]);
     }
@@ -76,11 +78,12 @@ class NoteTest extends AuthenticatedTestCase
         $response->assertStatus(302)->assertInvalid(['name']);
 
         //Trying to update the valid note
-        $response = $this->put('/note/'.$note->id, ['name' => 'Valid Note']);
+        $response = $this->put('/note/'.$note->id, ['name' => 'Valid Note', 'dashboard_id' => $this->dashboard->id]);
         $response->assertStatus(302)->assertSessionHas('status');
         $this->assertDatabaseHas('notes', [
             'id' => $note->id,
             'user_id' => $this->user->id,
+            'dashboard_id' => $this->dashboard->id,
             'name' => 'Valid Note',
         ]);
     }
@@ -104,13 +107,15 @@ class NoteTest extends AuthenticatedTestCase
 
         //Trying to delete the valid note
         $note = Note::factory()->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'dashboard_id' => $this->dashboard->id
         ]);
         $response = $this->delete('/note/'.$note->id);
         $response->assertStatus(302)->assertSessionHas('status');
         $this->assertDatabaseMissing('notes', [
             'id' => $note->id,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'dashboard_id' => $this->dashboard->id
         ]);
     }
 }

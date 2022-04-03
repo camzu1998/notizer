@@ -30,5 +30,6 @@ class UserObserver
     {
         $user->dashboards()->delete();
         $user->tags()->delete();
+        $user->notes()->delete();
     }
 }

@@ -20,13 +20,4 @@ class Controller extends BaseController
     {
         return view('homepage');
     }
-    /**
-     * Display a dashboard page
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function dashboard()
-    {
-        return view('dashboard');
-    }
 }

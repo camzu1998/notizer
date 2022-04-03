@@ -13,6 +13,7 @@ class FormNoteRequest extends AbstractFormRequest
     {
         return [
             'name' => 'required',
+            'dashboard_id' => 'required|integer|exists:dashboards,id',
             'content' => 'nullable',
             'deadline' => 'nullable|date',
             'status' => 'nullable|integer',
