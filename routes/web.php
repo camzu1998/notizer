@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NoteTagController;
 use App\Http\Controllers\TagController;
@@ -22,17 +23,24 @@ use App\Http\Controllers\UserController;
 
 //Default login
 Route::get('/', [Controller::class, 'index'])->name('login');
-Route::post('/auth', [LoginController::class, 'user_auth']);
+Route::post('/auth', [AuthController::class, 'user_auth']);
 
 //Third party login
-Route::get('/auth/{provider}', [LoginController::class, 'redirect']);
-Route::get('/auth/{provider}/callback', [LoginController::class, 'third_party_auth']);
+Route::get('/auth/{provider}', [AuthController::class, 'redirect']);
+Route::get('/auth/{provider}/callback', [AuthController::class, 'third_party_auth']);
+
+//Logout
+Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/register', [UserController::class, 'create']);
 Route::post('/register', [UserController::class, 'store']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
+    //Dashboards
+    Route::resource('dashboards', DashboardController::class)->except([
+        'index', 'create', 'edit'
+    ]);
 
     //Notes
     Route::get('/note/{note}', [NoteController::class, 'show'])->name('note');

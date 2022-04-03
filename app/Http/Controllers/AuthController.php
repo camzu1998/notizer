@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginFormRequest;
-use App\Models\Note;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     private $repository;
 
@@ -24,9 +23,10 @@ class LoginController extends Controller
 
     public function user_auth(LoginFormRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->safe()->except('remember_me');
+        $remember = boolval($request->safe()->only('remember_me'));
 
-        if (Auth::attempt($data)) {
+        if (Auth::attempt($data, $remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');
@@ -41,9 +41,10 @@ class LoginController extends Controller
     {
         $service = $this->repository->getProvider($provider);
 
-        $user = $service->handle_callback();
+        $service->handle_callback();
+        $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        return redirect()->intended('dashboard');
     }
 
     public function redirect(Request $request, string $provider = 'default')
@@ -51,5 +52,16 @@ class LoginController extends Controller
         $service = $this->repository->getProvider($provider);
 
         return $service->redirect_to();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
